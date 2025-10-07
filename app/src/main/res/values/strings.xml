@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Skolar2.0</string>
+    <string name="feature_tbi">Feature to be implemented</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="create_account">Create account</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="toggle_login_signup">I’m new — create an account</string>
+    <string name="toggle_have_account">I already have an account — sign in</string>
 </resources>

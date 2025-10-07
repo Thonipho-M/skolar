@@ -12,7 +12,12 @@
           "package_name": "com.example.skolar20"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "697913270333-f2cc6nvue3ls91m5s08ifbk1kc9h0779.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCHMlF9hXblTHk_fFRHmMiquHKjopke1N0"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697913270333-f2cc6nvue3ls91m5s08ifbk1kc9h0779.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

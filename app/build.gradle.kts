@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
-
 }
 
 android {
@@ -32,34 +31,46 @@ android {
             )
         }
     }
+
+    // Recommended with AGP 8+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    kotlinOptions { jvmTarget = "17" }
+
     buildFeatures {
         compose = true
-        android.buildFeatures.buildConfig = true
+        buildConfig = true   // ✅ correct way
     }
+
+    // If your setup needs it; otherwise omit (the compose plugin may manage this)
+    // composeOptions { kotlinCompilerExtensionVersion = "1.5.15" }
 }
 
 dependencies {
-
-    // Navigation (Compose)
+    // --- Navigation (Compose only) ---
     implementation("androidx.navigation:navigation-compose:2.8.1")
+    // remove: implementation(libs.androidx.navigation.common.android)
 
-    // HTTP + JSON
+    // --- HTTP + JSON ---
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("com.google.code.gson:gson:2.11.0")
 
-    // Coroutines
+    // --- Coroutines ---
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    // --- Firebase (use ONE BOM + ONE Auth dep) ---
+    implementation(platform("com.google.firebase:firebase-bom:34.3.0")) // keep this
+    implementation("com.google.firebase:firebase-auth")             // keep this
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    // remove: implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
+    // remove: implementation(libs.firebase.auth.ktx)  // duplicate
+
+    // --- AndroidX (from your version catalog) ---
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -68,7 +79,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.navigation.common.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

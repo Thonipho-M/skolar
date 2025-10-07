@@ -1,0 +1,50 @@
+Skolar 2.0 – Tutor App developed by fullcircle
+
+A university project demonstrating a tutor-matching app with a login screen on startup, Google SSO + Email/Password authentication (Firebase Auth), a bottom-nav UI, and a working Tutors list fetched from Firestore via REST (no paid services required). Non-implemented tabs show “Feature to be implemented”.
+
+Features:
+
+Auth
+- LoginScreen on startup (Google SSO + Email/Password sign-in & sign-up)
+- Settings: show current user, Sign out, Revoke Google access, Send password reset email (for email/password users)
+
+Navigation
+- Bottom navigation: Home, Tutors (working), Bookings (TBI), Messages (TBI), Settings
+
+Tutors (working feature)
+- Reads tutors from Cloud Firestore via REST using OkHttp + Gson
+
+Booking (working feature)
+- book tutoring lessons
+
+Settings (working feature_
+- change language
+
+Educational Content (working feature)
+- access educational content
+
+Architect:
+
+app/
+  src/main/
+    AndroidManifest.xml
+    java/com/example/skolar20/
+      MainActivity.kt                 // sets content -> App()
+      SkolarApp.kt                    // Application class
+      navigation/
+        NavDestinations.kt
+        NavGraph.kt                   // routes/tabs
+      ui/
+        App.kt                        // Auth gate (Login vs Main app + bottom nav)
+        screens/
+          LoginScreen.kt              // Google SSO + Email/Password
+          SettingsScreen.kt           // account actions + local settings
+          HomeScreen.kt               // quick nav
+          TutorsScreen.kt             // REST read from Firestore
+          ComingSoonScreen.kt         // placeholder for TBI features
+      data/
+        model/Tutor.kt
+        remote/FirestoreService.kt    // OkHttp + Gson Firestore REST
+  build.gradle.kts                    // app module gradle (deps, BuildConfig fields)
+build.gradle.kts                      // root plugins (AGP, Kotlin, Google services)
+settings.gradle.kts                   // repositories (google(), mavenCentral())
