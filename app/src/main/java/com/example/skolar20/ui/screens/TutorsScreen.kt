@@ -7,24 +7,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.skolar20.data.model.remote.*
+import androidx.navigation.NavController
+import com.example.skolar20.data.remote.FirestoreService
 import com.example.skolar20.data.model.Tutor
+import com.example.skolar20.navigation.ROUTE_NEW_BOOKING
 
 @Composable
-fun TutorsScreen() {
+fun TutorsScreen(navController: NavController) {
     var tutors by remember { mutableStateOf<List<Tutor>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
-        isLoading = true
-        error = null
         try {
             tutors = FirestoreService.fetchTutors()
+            error = null
         } catch (e: Exception) {
             error = e.message ?: "Unknown error"
         } finally {
-            isLoading = false
+            loading = false
         }
     }
 
@@ -32,20 +33,20 @@ fun TutorsScreen() {
         Text("Tutors", style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.height(8.dp))
 
-        if (isLoading) {
-            LinearProgressIndicator(Modifier.fillMaxWidth())
-        } else if (error != null) {
-            Text("Error: $error", color = MaterialTheme.colorScheme.error)
-        } else {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(tutors) { tutor -> TutorCard(tutor) }
+        when {
+            loading -> LinearProgressIndicator(Modifier.fillMaxWidth())
+            error != null -> Text("Error: $error", color = MaterialTheme.colorScheme.error)
+            else -> LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                items(tutors) { tutor -> TutorCard(tutor) {
+                    navController.navigate("$ROUTE_NEW_BOOKING?tutorId=${tutor.tutorId}")
+                } }
             }
         }
     }
 }
 
 @Composable
-private fun TutorCard(tutor: Tutor) {
+private fun TutorCard(tutor: Tutor, onRequest: () -> Unit) {
     Card {
         Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(tutor.name, style = MaterialTheme.typography.titleMedium)
@@ -55,8 +56,8 @@ private fun TutorCard(tutor: Tutor) {
             Text("Location: ${tutor.location}")
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = { /* TODO booking flow */ }) { Text("Request Session") }
-                OutlinedButton(onClick = { /* TODO open profile */ }) { Text("View Profile") }
+                OutlinedButton(onClick = onRequest) { Text("Request Session") }
+                OutlinedButton(onClick = { /* TODO: view profile */ }) { Text("View Profile") }
             }
         }
     }

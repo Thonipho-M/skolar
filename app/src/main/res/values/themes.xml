@@ -2,4 +2,16 @@
 <resources>
 
     <style name="Theme.Skolar20" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Splash theme (uses the Core SplashScreen attrs) -->
+    <style name="Theme.Skolar20.Splash" parent="Theme.SplashScreen">
+        <!-- Background of the splash -->
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <!-- Your logo (static or animated) -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <!-- Optional: short animation duration -->
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <!-- Theme to apply after splash -->
+        <item name="postSplashScreenTheme">@style/Theme.Skolar20</item>
+    </style>
 </resources>
